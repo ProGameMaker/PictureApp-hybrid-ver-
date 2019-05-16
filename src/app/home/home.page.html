@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot = "start">
+      <ion-menu-button>
+        </ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot = "end" (click) = "add()" (click) = "presentCreateNew()">
+        <ion-icon name="add" size = "large"></ion-icon>
+      </ion-buttons>
+    <ion-title>
+      View
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class = "background" padding slot = "center">
+  <ion-card class = "input">
+    <ion-input name = "input" [(ngModel)]= "inp" placeholder = "Search the blog">  <ion-icon id = "search" name="search"></ion-icon> </ion-input>
+  </ion-card>
+  <ion-card *ngFor="let image of imageList; let i = index">
+    <div [hidden] = "!check(i,inp)">
+      <ion-img [src] = image.presentUrl> </ion-img>
+      <ion-button expand = "full" color = "medium" (click) = "pickImage(i)" [hidden] = "image.state == 'view'" > Change the picture </ion-button>
+      <ion-card-header>
+        <ion-card-subtitle class = "white" [attr.id]="'subtitle'+i" [contenteditable] = "image.state == 'edit'"> {{image.subtitle}} </ion-card-subtitle>
+        <ion-card-title class = "white" [attr.id]="'title'+i" [contenteditable] = "image.state == 'edit'"> {{image.title}} </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content class = "white" [attr.id]="'content'+i" [contenteditable] = "image.state == 'edit'"> {{image.content}} </ion-card-content>
+    <ion-toolbar>
+      <ion-buttons slot = "end" (click) = "confirm(i)" *ngIf = "image.state == 'edit'">
+          <ion-icon slot = "end" name="checkmark" size = "large"></ion-icon>
+        </ion-buttons>
+        <ion-buttons slot = "end" (click) = "config(i)" *ngIf = "image.state == 'view'">
+            <ion-icon slot = "end" name="create" size = "large"></ion-icon>
+          </ion-buttons>
+          <ion-buttons slot = "end" (click) = "presentAlertConfirm(image)">
+              <ion-icon slot = "end" name="trash" size = "large"></ion-icon>
+            </ion-buttons>
+    </ion-toolbar>
+  </div>
+</ion-card>
+</ion-content>
+<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+<script src="jquery.textarea_autosize.min.js"></script>
